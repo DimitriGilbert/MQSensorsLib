@@ -7,6 +7,12 @@ MQx::MQx(float Voltage_Resolution, int ADC_Bit_Resolution, int pin) {
 }
 void MQx::init() {
   pinMode(pin, INPUT);
+  float calcR0 = 0;
+  for (int i = 1; i <= 10; i++) {
+    this->update();
+    calcR0 += this->calibrate(9.83);
+  }
+  this->setR0(calcR0 / 10);
 }
 void MQx::setA(float a) {
   this->a = a;
